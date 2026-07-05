@@ -47,7 +47,24 @@ class DreamsTests(unittest.TestCase):
         self.assertEqual({}, applied)
         self.assertEqual(before, state.values)
 
+    def test_dream_after_effect_applies_first_three_default_tags(self):
+        now = datetime(2026, 1, 1, tzinfo=timezone.utc)
+        state = create_initial_state(now)
+
+        applied = apply_dream_after_effect(
+            state,
+            ["aroused", "unfinished", "possessive", "released"],
+            body_enabled=True,
+        )
+
+        self.assertEqual(applied["heat"], 20)
+        self.assertEqual(applied["pressure"], 24)
+        self.assertEqual(applied["sensitivity"], 5)
+        self.assertEqual(applied["reserve"], 3)
+        self.assertEqual(applied["control"], -9)
+        self.assertEqual(applied["possessiveness"], 10)
+        self.assertEqual(applied["fatigue"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
-

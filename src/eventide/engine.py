@@ -9,6 +9,16 @@ from .models import BodyDeltas, BodyState
 from .settings import EngineSettings
 
 
+MAX_TICK_SEGMENTS = 48
+APPROACH_FACTORS = {
+    "heat": 0.18,
+    "pressure": 0.14,
+    "sensitivity": 0.12,
+    "control": 0.16,
+    "possessiveness": 0.10,
+}
+
+
 def create_initial_state(
     now: datetime,
     *,
@@ -72,7 +82,7 @@ def advance_state(
     cursor = last_tick_at
     max_step = timedelta(hours=float(config.max_tick_hours))
     segments = 0
-    while cursor < now and segments < 96:
+    while cursor < now and segments < MAX_TICK_SEGMENTS:
         _finish_expired_event_if_needed(state, cursor, config=config)
         _advance_cycle_if_needed(state, cursor, config=config, rng=rng)
 
@@ -197,7 +207,7 @@ def _advance_values(
             )
             continue
         target = cycle.targets.get(field, state.values.get(field, 0))
-        factor = 0.10 if field == "possessiveness" else 0.15
+        factor = APPROACH_FACTORS.get(field, 0.15)
         state.values[field] = _approach_body_field(
             field,
             state.values.get(field, 0),

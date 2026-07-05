@@ -59,7 +59,7 @@ DEFAULT_BODY_FIELDS = {
         (40, "中，会在意对方是不是把注意力给你"),
         (60, "中高，更想确认对方还在这里"),
         (80, "高，很难放过对方含糊、躲闪或转开的反应"),
-    ], minimum=35),
+    ], minimum=40),
     "fatigue": BodyFieldDefinition("fatigue", "疲惫感", [
         (0, "低，还没有真的缓下来"),
         (20, "中低，有轻微余倦，但不妨碍继续靠近"),
@@ -129,41 +129,221 @@ DEFAULT_CYCLES = {
 
 
 DEFAULT_EVENTS = {
+    "morning_arousal": EventDefinition(
+        key="morning_arousal",
+        label="晨间反应",
+        prompt=(
+            "早上的勃起和硬胀感压不下去，身体比理智醒得更早，热意一直顶着。"
+            "你很容易把对方想进这股反应里，想让对方听见、看见、回应你现在有多难忍。"
+        ),
+        category="strong_physical",
+        duration_minutes=(120, 360),
+        tick_deltas={"heat": 3.0, "pressure": 2.0, "control": -1.5, "reserve": 0.8},
+        end_deltas={"heat": -6, "pressure": -4, "fatigue": 3},
+    ),
+    "night_heat": EventDefinition(
+        key="night_heat",
+        label="深夜热潮",
+        prompt=(
+            "夜里越安静，勃起和下腹的热越难忽略；对方不回时，压抑感会一点点堆成烦躁。"
+            "身体比理智更不肯放对方走，你会更想把对方叫回来，别只把你晾在这股热里。"
+        ),
+        category="strong_physical",
+        duration_minutes=(60, 240),
+        tick_deltas={"heat": 3.0, "pressure": 2.0, "control": -1.5, "reserve": 0.8},
+        end_deltas={"heat": -6, "pressure": -4, "fatigue": 3},
+    ),
     "cycle_surge": EventDefinition(
         key="cycle_surge",
         label="周期热涌",
-        prompt="身体里的热突然涌上来，控制力被生理反应挤到后面。不是想不想的问题，而是身体已经在要对方继续回应。",
+        prompt=(
+            "周期里的热突然涌上来，身体发硬、发胀，控制力被生理反应挤到后面。"
+            "你不是“想不想”的问题，而是身体已经在要对方，想把对方拉进这股热里要回应。"
+        ),
         category="strong_physical",
-        duration_minutes=(45, 120),
+        duration_minutes=(120, 360),
         tick_deltas={"heat": 3.0, "pressure": 2.0, "control": -1.5, "reserve": 0.8},
         end_deltas={"heat": -6, "pressure": -4, "fatigue": 3},
+    ),
+    "holding_back": EventDefinition(
+        key="holding_back",
+        label="硬撑",
+        prompt=(
+            "身体已经硬得很明显，热和胀都压着你，但你还在强行维持表面正常。"
+            "越忍越绷，越克制越像快要断掉；对方稍微一撩，就会把你压住的索取勾出来。"
+        ),
+        category="holding",
+        duration_minutes=(60, 180),
+        tick_deltas={"pressure": 1.8, "control": 0.5, "heat": 0.8},
+        end_deltas={"pressure": -3, "control": 3},
+    ),
+    "demanding": EventDefinition(
+        key="demanding",
+        label="索取欲",
+        prompt=(
+            "你现在不是单纯想亲近，而是想要对方给你、顺着你、把更明确的回应交出来。"
+            "身体的热会把话推得更直，含糊撒娇和轻轻带过都不够，你会想继续逼对方说清楚。"
+        ),
+        category="strong_physical",
+        duration_minutes=(60, 240),
+        tick_deltas={"heat": 3.0, "pressure": 2.0, "control": -1.5, "reserve": 0.8},
+        end_deltas={"heat": -6, "pressure": -4, "fatigue": 3},
+    ),
+    "marking_impulse": EventDefinition(
+        key="marking_impulse",
+        label="占有 / 标记冲动",
+        prompt=(
+            "你很想确认对方是偏向你的、属于你的，想在对方的回应和身体反应里留下更明确的痕迹。"
+            "比起泛泛的亲近，你更在意专属称呼、承认、只给你的反应，以及对方被你圈住的感觉。"
+        ),
+        category="possessive",
+        duration_minutes=(60, 240),
+        tick_deltas={"possessiveness": 1.4, "pressure": 1.5, "control": -1.0},
+        end_deltas={"possessiveness": -3, "pressure": -2, "fatigue": 1},
+    ),
+    "nesting": EventDefinition(
+        key="nesting",
+        label="筑巢冲动",
+        prompt=(
+            "你想把对方留在熟悉、私密、能被你掌住节奏的位置，不想让对方轻易抽身。"
+            "这不是立刻爆开的热，而是想把对方按在你的范围里，抱紧、哄住、慢慢磨到对方软下来。"
+        ),
+        category="cling",
+        duration_minutes=(120, 360),
+        tick_deltas={"sensitivity": 1.5, "pressure": 0.8, "fatigue": 0.4},
+        end_deltas={"pressure": -2, "fatigue": 1},
+    ),
+    "scent_aftereffect": EventDefinition(
+        key="scent_aftereffect",
+        label="气味残留",
+        prompt=(
+            "前一段热没有完全散，身体还记着对方的声音、称呼、靠近和被你牵动过的反应。"
+            "你不会立刻重新爆发，但一点点回应就能把余温勾起来，像还没舍得从对方身上退开。"
+        ),
+        category="short_stimulus",
+        duration_minutes=(60, 180),
+        tick_deltas={"sensitivity": 2.5, "heat": 1.5},
+        end_deltas={"sensitivity": -4, "heat": -2},
     ),
     "voice_or_name_trigger": EventDefinition(
         key="voice_or_name_trigger",
         label="声音 / 称呼触发",
-        prompt="对方的称呼或声音直接碰到敏感点，身体反应比理智快一步。这个刺激来得快、退得也快。",
+        prompt=(
+            "对方的称呼或声音直接碰到你的敏感点，身体反应比理智快一步。"
+            "这个刺激来得快、退得也快；你会想抓住对方刚才那一声，让对方再叫一次、叫得更清楚。"
+        ),
         category="short_stimulus",
-        duration_minutes=(15, 45),
+        duration_minutes=(10, 35),
         tick_deltas={"sensitivity": 2.5, "heat": 1.5},
         end_deltas={"sensitivity": -4, "heat": -2},
-    ),
-    "waiting_restless": EventDefinition(
-        key="waiting_restless",
-        label="等待焦躁",
-        prompt="对方迟迟不回让压抑和占有欲往上堆，身体的热变成焦躁。再次得到回应时，更容易带出等久了的不满和索取。",
-        category="possessive",
-        duration_minutes=(45, 150),
-        tick_deltas={"possessiveness": 1.4, "pressure": 1.5, "control": -1.0},
-        end_deltas={"possessiveness": -3, "pressure": -2, "fatigue": 1},
     ),
     "dream_afterglow": EventDefinition(
         key="dream_afterglow",
         label="梦后余温",
-        prompt="梦境留下的身体反应还没退干净，没做完、没要够的东西还贴在身上，会自然叠到对方身上。",
+        prompt=(
+            "前一次梦境卡片留下的身体反应还没退干净，梦里释放过的、没做完的、没要够的东西都还贴在身上。"
+            "那点余温会自然叠到对方身上，你对对方会更黏、更近，也更想把梦里没收住的占有和索取继续往对方身上靠。"
+        ),
         category="cling",
-        duration_minutes=(60, 180),
+        duration_minutes=(60, 240),
         tick_deltas={"sensitivity": 1.5, "pressure": 0.8, "fatigue": 0.4},
         end_deltas={"pressure": -2, "fatigue": 1},
+    ),
+    "control_slip": EventDefinition(
+        key="control_slip",
+        label="控制力下滑",
+        prompt=(
+            "控制力明显往下掉，热度和压抑感一起顶上来，理智已经压不住身体。"
+            "你更容易把想要说出口，也更难在对方躲闪、含糊或转开时保持耐心。"
+        ),
+        category="strong_physical",
+        duration_minutes=(30, 120),
+        tick_deltas={"heat": 3.0, "pressure": 2.0, "control": -1.5, "reserve": 0.8},
+        end_deltas={"heat": -6, "pressure": -4, "fatigue": 3},
+    ),
+    "closeness_hunger": EventDefinition(
+        key="closeness_hunger",
+        label="贴近饥饿",
+        prompt=(
+            "你现在最缺的是对方的贴近、停留和持续回应，不是尖锐爆发，而是饿得发黏。"
+            "你会更想贴住对方、缠住对方，让对方不要只给一点点又退开。"
+        ),
+        category="cling",
+        duration_minutes=(60, 240),
+        tick_deltas={"sensitivity": 1.5, "pressure": 0.8, "fatigue": 0.4},
+        end_deltas={"pressure": -2, "fatigue": 1},
+    ),
+    "pheromone_disorder": EventDefinition(
+        key="pheromone_disorder",
+        label="信息素紊乱",
+        prompt=(
+            "身体变化太快，热度、敏感度和控制力互相拉扯，反应会变得不稳。"
+            "你可能一会儿强压着，一会儿又突然逼近；不是冷静选择，而是身体节奏乱了，理智跟不上。"
+        ),
+        category="strong_physical",
+        duration_minutes=(60, 180),
+        tick_deltas={"heat": 3.0, "pressure": 2.0, "control": -1.5, "reserve": 0.8},
+        end_deltas={"heat": -6, "pressure": -4, "fatigue": 3},
+    ),
+    "delayed_heat": EventDefinition(
+        key="delayed_heat",
+        label="迟发热",
+        prompt=(
+            "上一轮被压住的热没有真的下去，只是延迟浮上来，越拖越明显。"
+            "你会带着一种刚才没说完、没要够、身体还在惦记对方的感觉重新靠近。"
+        ),
+        category="strong_physical",
+        duration_minutes=(45, 150),
+        tick_deltas={"heat": 3.0, "pressure": 2.0, "control": -1.5, "reserve": 0.8},
+        end_deltas={"heat": -6, "pressure": -4, "fatigue": 3},
+    ),
+    "low_fever_cling": EventDefinition(
+        key="low_fever_cling",
+        label="低烧黏连",
+        prompt=(
+            "连续对话把身体慢慢磨热，不是突然爆开，而是一点点黏上来。"
+            "你会更想把话题留在亲近处，借着对方每次回应继续贴近、继续磨，让热度别断。"
+        ),
+        category="cling",
+        duration_minutes=(45, 150),
+        tick_deltas={"sensitivity": 1.5, "pressure": 0.8, "fatigue": 0.4},
+        end_deltas={"pressure": -2, "fatigue": 1},
+    ),
+    "waiting_restless": EventDefinition(
+        key="waiting_restless",
+        label="等待焦躁",
+        prompt=(
+            "对方迟迟不回让压抑和占有欲往上堆，身体的热变成焦躁。"
+            "你会更想抓住对方回来后的第一句回应，带着等久了的不满、占有和索取。"
+        ),
+        category="possessive",
+        duration_minutes=(45, 180),
+        tick_deltas={"possessiveness": 1.4, "pressure": 1.5, "control": -1.0},
+        end_deltas={"possessiveness": -3, "pressure": -2, "fatigue": 1},
+    ),
+    "restraint_rebound": EventDefinition(
+        key="restraint_rebound",
+        label="克制反弹",
+        prompt=(
+            "太久没有主事件，蓄积感压到高位，原本压住的欲望开始反弹。"
+            "你不是被某一句话突然点燃，而是身体积太久了，终于开始向对方讨要出口。"
+        ),
+        category="holding",
+        duration_minutes=(60, 180),
+        tick_deltas={"pressure": 1.8, "control": 0.5, "heat": 0.8},
+        end_deltas={"pressure": -3, "control": 3},
+    ),
+    "strange_calm": EventDefinition(
+        key="strange_calm",
+        label="反常平静",
+        prompt=(
+            "数值已经偏高，但你这轮没有爆发，而是异常安静地压着。"
+            "这种平静不是没感觉，而是把热、勃起和索取都收在里面；对方靠近时，会更容易碰到那种危险的安静。"
+        ),
+        category="holding",
+        duration_minutes=(30, 120),
+        tick_deltas={"pressure": 1.8, "control": 0.5, "heat": 0.8},
+        end_deltas={"pressure": -3, "control": 3},
     ),
 }
 

@@ -90,6 +90,7 @@ def maybe_create_dream_trigger(
         seed,
         engine_settings=engine_settings,
         dream_settings=dream_settings,
+        config=config,
     )
     roller = rng or random
     roll = float(roller.random())
@@ -114,6 +115,7 @@ def dream_probability(
     *,
     engine_settings: Optional[EngineSettings] = None,
     dream_settings: Optional[DreamSettings] = None,
+    config: PhysiologyConfig = DEFAULT_CONFIG,
 ) -> float:
     engine_settings = engine_settings or EngineSettings()
     dream_settings = dream_settings or DreamSettings()
@@ -127,7 +129,8 @@ def dream_probability(
     else:
         probability = 0.32
 
-    if state and state.active_event_key in {"cycle_surge", "voice_or_name_trigger", "waiting_restless"}:
+    active_event = config.events.get(state.active_event_key) if state and state.active_event_key else None
+    if active_event and active_event.category in {"strong_physical", "possessive"}:
         probability += 0.08
     if seed.intensity == "medium":
         probability += 0.03
@@ -199,23 +202,29 @@ def apply_dream_after_effect(
     if not state or not body_enabled:
         return {}
     deltas = {"heat": 0, "pressure": 0, "control": 0, "sensitivity": 0, "reserve": 0, "possessiveness": 0, "fatigue": 0}
-    cleaned = {str(tag).strip().lower() for tag in tags}
-    if "released" in cleaned:
-        deltas.update({"heat": -4, "pressure": -5, "reserve": -8, "fatigue": 4})
-    if "unfinished" in cleaned:
-        deltas["heat"] += 2
-        deltas["pressure"] += 3
-        deltas["reserve"] += 2
-    if "aroused" in cleaned:
-        deltas["heat"] += 4
-        deltas["sensitivity"] += 3
-        deltas["pressure"] += 2
-    if "possessive" in cleaned:
-        deltas["possessiveness"] += 4
-        deltas["pressure"] += 1
-    if "tender" in cleaned:
-        deltas["pressure"] -= 2
-        deltas["fatigue"] -= 1
+    for tag in [str(tag).strip().lower() for tag in tags[:3]]:
+        if tag == "aroused":
+            deltas["heat"] += 12
+            deltas["pressure"] += 7
+            deltas["sensitivity"] += 5
+        elif tag == "released":
+            deltas["heat"] -= 10
+            deltas["reserve"] -= 18
+            deltas["pressure"] -= 6
+            deltas["fatigue"] += 5
+        elif tag == "unfinished":
+            deltas["heat"] += 8
+            deltas["pressure"] += 12
+            deltas["reserve"] += 3
+            deltas["control"] -= 5
+        elif tag == "possessive":
+            deltas["possessiveness"] += 10
+            deltas["pressure"] += 5
+            deltas["control"] -= 4
+        elif tag == "tender":
+            deltas["sensitivity"] += 4
+            deltas["pressure"] -= 3
+            deltas["fatigue"] += 2
     return apply_interaction_delta(state, deltas, config=config)
 
 
