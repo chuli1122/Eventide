@@ -51,6 +51,9 @@ class ConfigTests(unittest.TestCase):
     def test_default_possessiveness_floor_matches_runtime_system(self):
         self.assertEqual(DEFAULT_CONFIG.body_fields["possessiveness"].minimum, 40)
 
+    def test_default_response_rules_are_left_for_host_customization(self):
+        self.assertEqual(DEFAULT_CONFIG.prompt_options.response_rules, "")
+
 
 if __name__ == "__main__":
     unittest.main()
