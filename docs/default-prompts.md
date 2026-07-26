@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+-->
+
 # 默认提示词
 
 这里整理 Eventide 自带的默认提示词。它们实际定义在 `src/eventide/config.py`，宿主可以通过替换 `PhysiologyConfig`、`CycleDefinition`、`EventDefinition` 或 `PromptOptions` 自定义。

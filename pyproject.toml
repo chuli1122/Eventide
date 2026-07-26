@@ -1,5 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +11,8 @@ version = "0.1.0"
 description = "A body-state, dream-link, and settlement engine for AI companions."
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "PolyForm Noncommercial License 1.0.0" }
+license = "PolyForm-Noncommercial-1.0.0"
+license-files = ["LICENSE", "LICENSES/*.txt"]
 authors = [
   { name = "Chuli" }
 ]
@@ -16,8 +20,14 @@ keywords = ["ai-companion", "body-state", "physiology", "dreams", "settlement", 
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
-  "License :: Other/Proprietary License",
 ]
+
+[project.urls]
+Homepage = "https://github.com/chuli1122/Eventide"
+Repository = "https://github.com/chuli1122/Eventide"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+eventide = ["*.license"]

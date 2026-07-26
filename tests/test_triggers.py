@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
 import unittest
 
 from eventide import TriggerWord, find_trigger_matches, normalize_trigger_words
@@ -28,4 +31,3 @@ class TriggerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

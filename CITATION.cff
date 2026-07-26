@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+cff-version: 1.2.0
+message: "If you use Eventide in research or published work, please cite it using these metadata."
+title: "Eventide"
+type: software
+authors:
+  - family-names: "Chuli"
+    alias: "chuli1122"
+version: 0.1.0
+date-released: 2026-07-05
+repository-code: "https://github.com/chuli1122/Eventide"
+url: "https://github.com/chuli1122/Eventide"
+license: "PolyForm-Noncommercial-1.0.0"
+abstract: >-
+  A body-state, dream-link, and settlement engine for AI companions.

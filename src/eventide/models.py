@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -61,4 +64,3 @@ class PromptOptions:
     response_rules: str
     counterpart_name: str = "对方"
     self_name: str = "你"
-

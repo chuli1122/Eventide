@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
 from dataclasses import replace
 from datetime import datetime, timezone
 

@@ -1,10 +1,15 @@
+<!--
+SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+-->
+
 # Eventide
 
 给你的 AI 一个涨落。
 
 Eventide 是一个给 AI 伴侣接入生理状态的源码公开项目。它参考 ABO 世界观下的身体周期，用时间、互动、等待、梦境和结算结果推进身体状态，并生成可插入模型上下文的隐藏状态提示词。
 
-源码公开，允许非商业使用。作者：Chuli（@chuli1122）。
+源码公开，允许非商业使用。作者：[Chuli（@chuli1122）](https://github.com/chuli1122)。
 
 ## 安装
 
@@ -1160,11 +1165,21 @@ restored = body_state_from_dict(saved)
 | `apply_dream_tags(state, tags)` | 应用梦后标签身体后效 |
 | `payload(state)` | 输出结构化身体状态 |
 
-## 许可证
+## 许可证与商业授权
 
-Eventide 使用 PolyForm Noncommercial License 1.0.0。
+Eventide 使用 [PolyForm Noncommercial License 1.0.0](LICENSE)，SPDX 标识符为 `PolyForm-Noncommercial-1.0.0`。
 
-你可以查看、学习、修改和用于非商业项目；商业使用需要另行获得授权。
+你可以在许可证允许的范围内查看、学习、修改、再分发并用于非商业项目。商业使用不在公开许可证的授权范围内，需要事先获得 Chuli 的单独书面授权；请通过 [@chuli1122](https://github.com/chuli1122) 公开的联系方式联系。
+
+再分发本项目的全部或任何部分时，必须按照 `LICENSE` 的 Notices 条款附带许可证文本或其指定网址，并保留以下声明：
+
+> Required Notice: Copyright 2026 Chuli (@chuli1122)
+
+本节只是便于阅读的摘要；如与 `LICENSE` 正文冲突，以 `LICENSE` 为准。
+
+## 引用
+
+如果你在研究、文章或公开项目中介绍 Eventide，请使用 [`CITATION.cff`](CITATION.cff) 中的作者和版本信息进行引用。
 
 ## API 速览
 

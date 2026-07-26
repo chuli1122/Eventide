@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -66,4 +69,3 @@ def find_trigger_matches(
             )
         )
     return matches
-

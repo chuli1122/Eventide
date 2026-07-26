@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Chuli (@chuli1122) <https://github.com/chuli1122>
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
 name: test
 
 on:
@@ -12,5 +15,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - run: python -m pip install "reuse[charset-normalizer]==6.2.0"
+      - run: reuse lint
       - run: PYTHONPATH=src python -m unittest discover -s tests
       - run: python -m compileall -q src examples tests
