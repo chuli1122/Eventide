@@ -7,6 +7,8 @@ SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 给你的 AI 一个涨落。
 
+<a href="https://github.com/DasterProkio/awesome-ai-companion/blob/main/README.zh-CN.md"><img src="https://raw.githubusercontent.com/DasterProkio/awesome-ai-companion/main/assets/featured-in-awesome-ai-companion-zh-CN.png" alt="已收录于人机恋开源项目大全" height="24"></a>
+
 Eventide 是一个给 AI 伴侣接入生理状态的源码公开项目。它参考 ABO 世界观下的身体周期，用时间、互动、等待、梦境和结算结果推进身体状态，并生成可插入模型上下文的隐藏状态提示词。
 
 源码公开，允许非商业使用。作者：[Chuli（@chuli1122）](https://github.com/chuli1122)。
